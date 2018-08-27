@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/puzzle_image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/puzzle" />
+
+    <!-- Use this view to washout the background image -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorWashOut" />
+
+    <ListView
+        android:id="@+id/database_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:focusable="true"
+        tools:itemCount="5"
+        tools:listitem="@layout/list_item_view"
+        tools:orientation="vertical" />
+
+    <!-- Empty View for an Empty Recycler -->
+    <RelativeLayout
+        android:id="@+id/empty_inventory_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:text="@string/trip_list_empty" />
+    </RelativeLayout>
+
+</RelativeLayout>

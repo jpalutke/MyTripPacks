@@ -1,0 +1,13 @@
+<resources>
+    <string name="puzzle_image">Puzzle Image</string>
+    <string name="app_name">My Trip Packs</string>
+    <string name="trip_list_empty">There are no trips to show. Click the refresh button above to generate a fictitious trip.</string>
+
+    <string name="invalid_field_value_format">Invalid %s.</string>
+
+    <string name="delete_all_inventory">Delete ALL Inventory</string>
+    <string name="add_dummy_inventory_item">Add a Dummy Inventory Item</string>
+    <string name="trip">Trip</string>
+    <string name="trip_added_fmt">Trip #%d added.</string>
+
+</resources>

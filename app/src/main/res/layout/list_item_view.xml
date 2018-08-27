@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/mini_padding">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/trip"
+        style="@style/TextTitle"
+        android:layout_marginEnd="@dimen/mini_padding" />
+
+    <TextView
+        android:id="@+id/textView_tripNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="00000"
+        style="@style/TextData"
+        android:layout_marginEnd="24dp"/>
+
+    <TextView
+        android:id="@+id/textView_receivedDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="yyyy-MM-dd"
+        style="@style/TextData"
+        android:layout_marginEnd="24dp"/>
+
+    <TextView
+        android:id="@+id/textView_fromTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Start / End (stops)"
+        style="@style/TextData"
+        android:layout_marginEnd="24dp"/>
+
+</LinearLayout>
