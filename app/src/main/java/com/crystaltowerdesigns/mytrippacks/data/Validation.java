@@ -24,28 +24,32 @@ public class Validation {
     }
 
     /**
-     * {link} Method to be used for field validation. No toasts will be shown.
+     * Method to be used for standard field validation.
+     * <p>
+     * No toasts will be shown when this constructor is used.
      *
      * @param value      A string containing the text to check.
-     * @param checkFlags Any combination of NOT_NULL, NOT_EMPTY, IS_NUMERIC, IS_WHOLE_NUMBER, IS_POSITIVE
+     * @param checkFlags Any combination of #NOT_NULL, #NOT_EMPTY, #IS_NUMERIC, #IS_WHOLE_NUMBER, #IS_POSITIVE
      *                   Separate your selections with a comma.
-     *
      * @return A boolean value containing the results of the check(s).
+     * @see #isValid(Context, String, String, int...) 
      */
     public static boolean isValid(@Nullable String value, int... checkFlags) {
         return isValid(null, null, value, checkFlags);
     }
 
     /**
-     * {link} Method to be used for field validation.
+     * Method to be used for standard field validation.
+     * <p>
+     * A toast will be shown, if the field fails validation, when this constructor is used.
      *
      * @param toastContext Context used for toasts. If toastContext is null then no Toast is shown.
      * @param fieldName    String containing the name of the field being validated.
      * @param value        A string containing the text to check.
      * @param checkFlags   Any combination of NOT_NULL, NOT_EMPTY, IS_NUMERIC, IS_WHOLE_NUMBER, IS_POSITIVE
      *                     Separate your selections with a comma.
-     *
      * @return A boolean value containing the results of the check(s).
+     * @see #isValid(String, int...)
      */
     public static boolean isValid(@Nullable Context toastContext, String fieldName, @Nullable String value, int... checkFlags) {
         boolean result = true;
@@ -78,14 +82,14 @@ public class Validation {
     }
 
     /**
-     * {@link}
-     *
-     * @param value A string to check for numeric content.
-     *
-     * @return boolean Returns true if the string was numeric, false if not.
-     * Numerical is determined to be any number, approximately
+     * Method determines if a String contains a valid numeric value.
+     * <p>
+     * A valid numeric is determined to be any number, approximately
      * ±3.40282347E+38F (6-7 significant decimal digits),
      * Java implements IEEE 754 standard, with or without decimal places.
+     *
+     * @param value A string to check for numeric content.
+     * @return boolean Returns true if the string was numeric, false if not.
      */
     @SuppressWarnings("SpellCheckingInspection")
     public static boolean isNumeric(String value) {
@@ -108,11 +112,10 @@ public class Validation {
     }
 
     /**
-     * {@link}
+     * Method to determine if a string contains a valid date.
      *
      * @param value String containing the date to validate for format and validity.
      *              Valid format is yyyy-MM-dd
-     *
      * @return boolean result as to whether or not it was a valid date.
      */
     private static boolean isValidDate(String value) {
@@ -139,13 +142,13 @@ public class Validation {
     }
 
     /**
-     * {link} Method to be used for field validation.
+     * Method determines if an int is one of a given array of valid values.
+     * <p>
      *
      * @param toastContext Context used for toasts. If toastContext is null then no Toast is shown.
      * @param fieldName    String containing the name of the field being validated.
      * @param value        An int containing the value to check.
      * @param validValues  A list of valid int values separated by commas.
-     *
      * @return A boolean value containing the results of the check(s).
      */
     public static boolean isOneOf(@Nullable Context toastContext, String fieldName, int value, int... validValues) {
@@ -167,7 +170,6 @@ public class Validation {
      * @param fieldName    String containing the name of the field being validated.
      * @param value        A String containing the value to check.
      * @param validValues  A list of valid String values separated by commas.
-     *
      * @return A boolean value containing the results of the check(s).
      */
     public static boolean isOneOf(@Nullable Context toastContext, String fieldName, String value, String... validValues) {

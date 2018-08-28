@@ -29,6 +29,7 @@ import android.util.Log;
 import com.crystaltowerdesigns.mytrippacks.data.TripsContract.StopEntry;
 import com.crystaltowerdesigns.mytrippacks.data.TripsContract.TripEntry;
 
+import static com.crystaltowerdesigns.mytrippacks.data.TripsContract.TripEntry.*;
 import static com.crystaltowerdesigns.mytrippacks.data.Validation.IS_DATE;
 import static com.crystaltowerdesigns.mytrippacks.data.Validation.NOT_NULL;
 import static com.crystaltowerdesigns.mytrippacks.data.Validation.isOneOf;
@@ -268,14 +269,20 @@ public class TripsProvider extends ContentProvider {
         return rowCount;
     }
 
+    /** {@link}
+     *
+     * @param values ContentValues containing the fields and values to validate.
+     * @return boolean value indicating whether or not the fields were valid.
+     */
     private boolean validateFields(ContentValues values) {
         boolean allFieldsValid = true;
-        if (values.containsKey(TripEntry.COLUMN_RECEIVED_DATE))
-            allFieldsValid = allFieldsValid && isValid(this.getContext(), TripEntry.COLUMN_RECEIVED_DATE, values.getAsString(TripEntry.COLUMN_RECEIVED_DATE), NOT_NULL, IS_DATE);
+        if (values.containsKey(COLUMN_RECEIVED_DATE))
+            allFieldsValid = allFieldsValid && isValid(this.getContext(), COLUMN_RECEIVED_DATE, values.getAsString(COLUMN_RECEIVED_DATE),
+                    NOT_NULL, IS_DATE);
 
         if (values.containsKey(TripEntry.COLUMN_STATE))
-            allFieldsValid = allFieldsValid && isOneOf(this.getContext(), "COLUMN_STATE", values.getAsInteger(TripEntry.COLUMN_STATE),
-                    TripEntry.STATE_ASSIGNED, TripEntry.STATE_OPEN, TripEntry.STATE_CLOSED, TripEntry.STATE_SUBMITTED);
+            allFieldsValid = allFieldsValid && isOneOf(this.getContext(), COLUMN_STATE, values.getAsInteger(COLUMN_STATE),
+                    STATE_ASSIGNED, STATE_OPEN, STATE_CLOSED, STATE_SUBMITTED);
 
         //TODO: validate remaining fields
 
