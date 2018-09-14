@@ -31,6 +31,8 @@ import com.crystaltowerdesigns.mytrippacks.data.TripsContract.TripEntry;
 
 import static com.crystaltowerdesigns.mytrippacks.data.TripsContract.TripEntry.*;
 import static com.crystaltowerdesigns.mytrippacks.data.Validation.IS_DATE;
+import static com.crystaltowerdesigns.mytrippacks.data.Validation.IS_POSITIVE;
+import static com.crystaltowerdesigns.mytrippacks.data.Validation.NOT_EMPTY;
 import static com.crystaltowerdesigns.mytrippacks.data.Validation.NOT_NULL;
 import static com.crystaltowerdesigns.mytrippacks.data.Validation.isOneOf;
 import static com.crystaltowerdesigns.mytrippacks.data.Validation.isValid;
@@ -81,11 +83,11 @@ public class TripsProvider extends ContentProvider {
      *
      * @return String value containing the result
      */
-    public static String getMaximum(Context context, String TABLE_NAME, String column_name) {// use the data type of the column
+    public static String getMaximum(Context context, String TABLE_NAME, String column_name) {
         TripsDbHelper mDbHelper2;
         mDbHelper2 = new TripsDbHelper(context);
         SQLiteDatabase database = mDbHelper2.getReadableDatabase();
-        Cursor cursor = database.query(TABLE_NAME, new String[]{"MAX(" + column_name + ") AS MAX"}, null, null, null, null, null);
+        Cursor cursor = database.query(TABLE_NAME, new String[]{"MAX(CAST(" + column_name + " AS FLOAT)) AS MAX"}, null, null, null, null, null);
         String data = null;
         if (cursor != null) {
             cursor.moveToFirst();
@@ -284,7 +286,24 @@ public class TripsProvider extends ContentProvider {
             allFieldsValid = allFieldsValid && isOneOf(this.getContext(), COLUMN_STATE, values.getAsInteger(COLUMN_STATE),
                     STATE_ASSIGNED, STATE_OPEN, STATE_CLOSED, STATE_SUBMITTED);
 
-        //TODO: validate remaining fields
+        if (values.containsKey(TripEntry.COLUMN_SUBMITTED_DATE))
+            allFieldsValid = allFieldsValid && isValid(this.getContext(), COLUMN_SUBMITTED_DATE, values.getAsString(COLUMN_SUBMITTED_DATE),
+                    NOT_NULL, IS_DATE);
+
+        if (values.containsKey(TripEntry.COLUMN_HUB_INITIAL)) {
+            int tI = values.getAsInteger(COLUMN_HUB_INITIAL);
+            allFieldsValid = allFieldsValid && isValid(this.getContext(), COLUMN_HUB_INITIAL, values.getAsInteger(COLUMN_HUB_INITIAL).toString(), IS_POSITIVE);
+        }
+
+        if (values.containsKey(TripEntry.COLUMN_HUB_END)) {
+            int tI = values.getAsInteger(COLUMN_HUB_END);
+            allFieldsValid = allFieldsValid && isValid(this.getContext(), COLUMN_HUB_END, values.getAsInteger(COLUMN_HUB_END).toString(), IS_POSITIVE);
+        }
+        if (values.containsKey(TripEntry.COLUMN_TRIP_NUMBER))
+            allFieldsValid = allFieldsValid && isValid(this.getContext(), COLUMN_TRIP_NUMBER, values.getAsString(COLUMN_TRIP_NUMBER), NOT_EMPTY);
+
+        if (values.containsKey(TripEntry.COLUMN_FROM_TO))
+            allFieldsValid = allFieldsValid && isValid(this.getContext(), COLUMN_FROM_TO, values.getAsString(COLUMN_FROM_TO), NOT_EMPTY);
 
         return allFieldsValid;
     }

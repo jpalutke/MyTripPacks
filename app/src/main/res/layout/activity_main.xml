@@ -22,11 +22,18 @@
         android:layout_alignParentTop="true"
         android:background="@color/colorWashOut" />
 
+    <include
+        android:id="@+id/list_header_view"
+        layout="@layout/list_header_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
     <ListView
         android:id="@+id/database_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/list_header_view"
         android:focusable="true"
         tools:itemCount="5"
         tools:listitem="@layout/list_item_view"

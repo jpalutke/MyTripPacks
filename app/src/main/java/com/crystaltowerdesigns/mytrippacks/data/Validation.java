@@ -16,7 +16,7 @@ public class Validation {
     public final static int IS_NUMERIC = 3;
     public final static int IS_WHOLE_NUMBER = 4;
     public final static int IS_DATE = 5;
-    public final static int IS_POSITIVE = 6;
+    public final static int IS_POSITIVE = 6; // IS_POSITIVE returns TRUE if >= 0
 
     // Constructor to prevent accidentally instantiating the Validation class
     private Validation() {
@@ -32,7 +32,7 @@ public class Validation {
      * @param checkFlags Any combination of #NOT_NULL, #NOT_EMPTY, #IS_NUMERIC, #IS_WHOLE_NUMBER, #IS_POSITIVE
      *                   Separate your selections with a comma.
      * @return A boolean value containing the results of the check(s).
-     * @see #isValid(Context, String, String, int...) 
+     * @see #isValid(Context, String, String, int...)
      */
     public static boolean isValid(@Nullable String value, int... checkFlags) {
         return isValid(null, null, value, checkFlags);
@@ -72,7 +72,7 @@ public class Validation {
                     result = result && isValidDate(value);
                     break;
                 case IS_POSITIVE:
-                    result = result && isNumeric(value) && value.contains("-");
+                    result = result && isNumeric(value) && !value.contains("-");
                     break;
             }
         }

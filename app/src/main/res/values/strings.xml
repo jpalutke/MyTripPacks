@@ -7,7 +7,7 @@
 
     <string name="delete_all_inventory">Delete ALL Inventory</string>
     <string name="add_dummy_inventory_item">Add a Dummy Inventory Item</string>
-    <string name="trip">Trip</string>
+    <string name="trip">Trip\u0020\u0020\u0020\u0020\u0020</string>
     <string name="trip_added_fmt">Trip #%d added.</string>
 
 </resources>

@@ -38,9 +38,12 @@ class TripsDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        // TODO: verify validation against any table changes
+
         String SQL_CREATE_TRIPS_TABLE = "CREATE TABLE " + TripEntry.TABLE_NAME + " ("
                 + TripEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + TripEntry.COLUMN_TRIP_NUMBER + " INT NOT NULL, "
+                + TripEntry.COLUMN_TRIP_NUMBER + " TEXT NOT NULL, "
                 + TripEntry.COLUMN_FROM_TO + " TEXT NOT NULL, "
                 + TripEntry.COLUMN_RECEIVED_DATE + " TEXT NOT NULL, "
                 + TripEntry.COLUMN_SUBMITTED_DATE + " TEXT, "
@@ -52,6 +55,8 @@ class TripsDbHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.v("SQL ERROR", e.toString());
         }
+
+        // TODO: verify validation against any table changes
 
         String SQL_CREATE_STOPS_TABLE = "CREATE TABLE " + StopEntry.TABLE_NAME + " ("
                 + StopEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -73,6 +78,11 @@ class TripsDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Database version 1 requires nothing to do here.
+        // Upgrade version by wiping the database tables
+        if (newVersion != oldVersion) {
+            db.execSQL("DROP TABLE IF EXISTS " + TripEntry.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + StopEntry.TABLE_NAME);
+            onCreate(db);
+        }
     }
 }

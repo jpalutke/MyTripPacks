@@ -78,7 +78,7 @@ public final class TripsContract {
         /**
          * The Trip Number
          * <p>
-         * Type: INTEGER
+         * Type: TEXT
          */
         public final static String COLUMN_TRIP_NUMBER = "trip_number";
 

@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.crystaltowerdesigns.mytrippacks.data.TripsContract;
 
 /**
- * {@link TripsCursorAdapter} is an adapter that displays a {@link Cursor} of inventory items.
+ * {@link TripsCursorAdapter} is an adapter that displays a {@link Cursor} of Trips.
  */
 class TripsCursorAdapter extends CursorAdapter {
 
@@ -34,7 +34,7 @@ class TripsCursorAdapter extends CursorAdapter {
      * Constructs a new {@link TripsCursorAdapter}.
      *
      * @param context App context.
-     * @param cursor  Cursor containing inventory data.
+     * @param cursor  Cursor containing trip data.
      */
     public TripsCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0 /* flags */);
@@ -44,7 +44,7 @@ class TripsCursorAdapter extends CursorAdapter {
      * Creates a blank item view.
      *
      * @param context App context.
-     * @param cursor  Cursor containing inventory data.
+     * @param cursor  Cursor containing trip data.
      * @param parent  The parent to which the new view is attached to
      *
      * @return New list item view.
@@ -60,7 +60,7 @@ class TripsCursorAdapter extends CursorAdapter {
      *
      * @param view    Existing view.
      * @param context App context.
-     * @param cursor  Cursor containing inventory data.
+     * @param cursor  Cursor containing trip data.
      */
     @Override
     public void bindView(View view, final Context context, final Cursor cursor) {
@@ -69,7 +69,7 @@ class TripsCursorAdapter extends CursorAdapter {
         TextView receivedDateTextView = view.findViewById(R.id.textView_receivedDate);
         TextView fromToTextView = view.findViewById(R.id.textView_fromTo);
 
-        // TODO: // Get column indexes
+        // TODO: Get column indexes... can we pull the stop table details here?
         final int receivedDateColumnIndex = cursor.getColumnIndex(TripsContract.TripEntry.COLUMN_RECEIVED_DATE);
         final int idColumnIndex = cursor.getColumnIndex(TripsContract.TripEntry._ID);
         final int tripNumberColumnIndex = cursor.getColumnIndex(TripsContract.TripEntry.COLUMN_TRIP_NUMBER);
@@ -81,6 +81,7 @@ class TripsCursorAdapter extends CursorAdapter {
         final String fromTo = cursor.getString(fromToColumnIndex);
         final int id = cursor.getInt(idColumnIndex);
 
+        // TODO: Get COLUMN_STATE and colorize as needed
         // Update the TextViews with the attributes for the current entry
         tripNumberTextView.setText(tripNumber);
         receivedDateTextView.setText(receivedDate);

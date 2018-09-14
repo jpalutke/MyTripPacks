@@ -1,22 +1,26 @@
 package com.crystaltowerdesigns.mytrippacks;
 
 import android.annotation.SuppressLint;
-import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
 
 import com.crystaltowerdesigns.mytrippacks.data.TripsContract.StopEntry;
 import com.crystaltowerdesigns.mytrippacks.data.TripsContract.TripEntry;
@@ -24,7 +28,7 @@ import com.crystaltowerdesigns.mytrippacks.data.TripsProvider;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor> {
 
     // LOADER ID's
     private static final int TRIP_LIST_LOADER = 0;
@@ -70,8 +74,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
         // Launch the loader
-        getLoaderManager().initLoader(TRIP_LIST_LOADER, null, this).forceLoad();
-
+        LoaderManager.getInstance(this).initLoader(TRIP_LIST_LOADER, null, this).forceLoad();
     }
 
     @Override
@@ -109,20 +112,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void insertTripItem() {
         // Create a ContentValues object where column names are the keys.
-        ContentValues values = new ContentValues();
+        ContentValues TripValues = new ContentValues();
 
         String maxString = TripsProvider.getMaximum(this.getBaseContext(), TripEntry.TABLE_NAME, TripEntry.COLUMN_TRIP_NUMBER);
         if (maxString == null)
             maxString = "0";
         int nextTripNumber = Integer.parseInt(maxString) + 1;
-        values.put(TripEntry.COLUMN_STATE, TripEntry.STATE_ASSIGNED);
-        values.put(TripEntry.COLUMN_TRIP_NUMBER, nextTripNumber);
-        values.put(TripEntry.COLUMN_HUB_INITIAL, 0);
-        values.put(TripEntry.COLUMN_HUB_END, 0);
-        values.put(TripEntry.COLUMN_RECEIVED_DATE, "2018-01-01");
-        values.put(TripEntry.COLUMN_SUBMITTED_DATE, "2018-01-01");
+        TripValues.put(TripEntry.COLUMN_STATE, TripEntry.STATE_ASSIGNED);
+        TripValues.put(TripEntry.COLUMN_TRIP_NUMBER, nextTripNumber);
+        TripValues.put(TripEntry.COLUMN_HUB_INITIAL, 0);
+        TripValues.put(TripEntry.COLUMN_HUB_END, 0);
+        TripValues.put(TripEntry.COLUMN_RECEIVED_DATE, "2018-01-01");
+        TripValues.put(TripEntry.COLUMN_SUBMITTED_DATE, "2018-01-01");
 
-        // add random amount of stops
+        // add a random number of stops
         int howManyToAdd = getRandom(4, false) + 1;
         String fromTo = "";
         for (int count = 1; count <= howManyToAdd; count++) {
@@ -137,12 +140,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 fromTo = String.format("'location' %d", count);
             else if (count == howManyToAdd)
                 fromTo = fromTo + " to " + String.format("'location' %d", count);
+
+            // Insert the stop record into the stop table
             @SuppressWarnings("unused") Uri newStopUri = getContentResolver().insert(StopEntry.CONTENT_URI, stop_values);
         }
         fromTo = fromTo + " (" + howManyToAdd + " stops)";
-        values.put(TripEntry.COLUMN_FROM_TO, fromTo);
+        TripValues.put(TripEntry.COLUMN_FROM_TO, fromTo);
 
-        @SuppressWarnings("unused") Uri newTripUri = getContentResolver().insert(TripEntry.CONTENT_URI, values);
+        // Insert the Trip record into the trip table
+        @SuppressWarnings("unused") Uri newTripUri = getContentResolver().insert(TripEntry.CONTENT_URI, TripValues);
         Toast.makeText(this, String.format(getString(R.string.trip_added_fmt), nextTripNumber), Toast.LENGTH_SHORT).show();
     }
 
@@ -160,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 TripEntry.COLUMN_HUB_END};
 
         // This loader will execute the ContentProvider's query method on a background thread
-        return new CursorLoader(this, TripEntry.CONTENT_URI, projection, null, null, null);
+        return new CursorLoader(this, TripEntry.CONTENT_URI, projection, null, null, "CAST(" + TripEntry.COLUMN_TRIP_NUMBER + " AS FLOAT) DESC");
     }
 
     @Override
